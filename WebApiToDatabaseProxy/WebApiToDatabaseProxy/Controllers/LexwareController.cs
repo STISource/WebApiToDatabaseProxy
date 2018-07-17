@@ -18,7 +18,7 @@ namespace WebApiToDatabaseProxy.Controllers
             this.lexwareManager = lexwareManager;
         }
 
-        [Route("lexware/SalesOrderConfirmationDetails")]
+        [Route("api/lexware/SalesOrderConfirmationDetails")]
         public IEnumerable<SalesOrderConfirmationDetail> GetSalesOrderConfirmationDetails()
         {
             return this.lexwareManager.GetSalesOrderConfirmationDetails();
