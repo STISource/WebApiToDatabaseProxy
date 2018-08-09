@@ -43,15 +43,15 @@ SELECT
                     AND(OrderConfirmationDesiredDeliveryDate - GETDATE()) < 14
                     AND(ProductQuantityInStock >= OrderConfirmationLineQuantityOutstanding)
                     AND(SELECT TOP 1 AuftragPosInner0.LNr
-                            FROM FK_Auftrag AS AuftragInner0
-                            INNER JOIN FK_AuftragPos AS AuftragPosInner0 ON AuftragInner0.AuftragsNr = AuftragPosInner0.AuftragsNr AND AuftragInner0.AuftragsKennung = AuftragPosInner0.Auftragskennung
+                            FROM F1.FK_Auftrag AS AuftragInner0
+                            INNER JOIN F1.FK_AuftragPos AS AuftragPosInner0 ON AuftragInner0.AuftragsNr = AuftragPosInner0.AuftragsNr AND AuftragInner0.AuftragsKennung = AuftragPosInner0.Auftragskennung
                             WHERE AuftragPosInner0.ArtikelNr = AuftragPosMain.ArtikelNr
                                 AND AuftragInner0.bStatus_geliefert != 1
                                 AND AuftragInner0.Auftragskennung = 1
                                 AND (AuftragPosInner0.Artikel_Menge* 0.92) > (ISNULL((SELECT
                                                                                SUM(AuftragPosInner01.Artikel_Menge)
-                                                                            FROM FK_Auftrag AS AuftragInner01
-                                                                            INNER JOIN FK_AuftragPos AS AuftragPosInner01 ON AuftragInner01.AuftragsNr = AuftragPosInner01.AuftragsNr AND AuftragInner01.AuftragsKennung = AuftragPosInner01.Auftragskennung
+                                                                            FROM F1.FK_Auftrag AS AuftragInner01
+                                                                            INNER JOIN F1.FK_AuftragPos AS AuftragPosInner01 ON AuftragInner01.AuftragsNr = AuftragPosInner01.AuftragsNr AND AuftragInner01.AuftragsKennung = AuftragPosInner01.Auftragskennung
 
                                                                             WHERE
                                                                                AuftragInner01.AuftragsKennung = 2
@@ -76,8 +76,8 @@ SELECT
     AuftragMain.szUserdefined3 AS GeneralAgreement,
     AufgabeMain.szBetreff + ' - ' + AufgabeMain.szRemark AS Comments,
     (SELECT TOP 1 KontaktInner.szBetreff + ' - ' + KontaktInner.szBemerkung
-     FROM FK_KONTAKT AS KontaktInner
-     INNER JOIN FK_AuftragNotizKontakt NotizInner ON KontaktInner.lID = NotizInner.lKontaktID
+     FROM F1.FK_KONTAKT AS KontaktInner
+     INNER JOIN F1.FK_AuftragNotizKontakt NotizInner ON KontaktInner.lID = NotizInner.lKontaktID
      WHERE NotizInner.lAuftragID = AuftragMain.SheetNr
      ORDER BY NotizInner.lID) AS Note,           
     ROUND(AuftragPosMain.Summen_preis, 3) AS OrderConfirmationLinePrice,
@@ -85,28 +85,28 @@ SELECT
     ROUND((AuftragPosMain.Summen_preis* AuftragPosMain.Artikel_Preisfaktor), 2) AS OrderConfirmationLinePriceSum,
     ISNULL((SELECT
         SUM(AuftragPosInner1.Artikel_Menge)
-     FROM FK_Auftrag AS AuftragInner1
-     INNER JOIN FK_AuftragPos AS AuftragPosInner1 ON AuftragInner1.AuftragsNr = AuftragPosInner1.AuftragsNr AND AuftragInner1.AuftragsKennung = AuftragPosInner1.Auftragskennung
+     FROM F1.FK_Auftrag AS AuftragInner1
+     INNER JOIN F1.FK_AuftragPos AS AuftragPosInner1 ON AuftragInner1.AuftragsNr = AuftragPosInner1.AuftragsNr AND AuftragInner1.AuftragsKennung = AuftragPosInner1.Auftragskennung
      WHERE
         AuftragInner1.AuftragsKennung = 2
         AND AuftragInner1.Verweis_weiter_aus_nr = AuftragMain.SheetNr
         AND AuftragPosInner1.ArtikelNr = AuftragPosMain.ArtikelNr
     ), 0) AS OrderConfirmationLineQuantityDelivered,
     (AuftragPosMain.Artikel_Menge - OrderConfirmationLineQuantityDelivered) AS OrderConfirmationLineQuantityOutstanding,            
-    (SELECT SUM(LagBest.Bestand) FROM FK_LagerBestand AS LagBest WHERE LagBest.lArtikelId = ArtikelMain.SheetNr) AS ProductQuantityInStock,        
-    (SELECT SUM(LagBest2.Menge_bestellt) FROM FK_LagerBestand AS LagBest2 WHERE LagBest2.lArtikelId = ArtikelMain.SheetNr) AS ProductQuantityOrderedByPurchasing,    
+    (SELECT SUM(LagBest.Bestand) FROM F1.FK_LagerBestand AS LagBest WHERE LagBest.lArtikelId = ArtikelMain.SheetNr) AS ProductQuantityInStock,        
+    (SELECT SUM(LagBest2.Menge_bestellt) FROM F1.FK_LagerBestand AS LagBest2 WHERE LagBest2.lArtikelId = ArtikelMain.SheetNr) AS ProductQuantityOrderedByPurchasing,    
     (SELECT
         SUM((ArtikelResInner1.dftResMenge - ArtikelResInner1.dftGeliefertMenge))
-     FROM FK_Artikelreservierung ArtikelResInner1
+     FROM F1.FK_Artikelreservierung ArtikelResInner1
      WHERE
         ArtikelResInner1.lArtikelID = ArtikelMain.SheetNr
         AND fAbgeschlossen = 0
     ) AS ProductQuantityReserved, 
     ArtikelMain.fGesperrt AS ProductLocked
-FROM FK_Auftrag AS AuftragMain
-INNER JOIN FK_AuftragPos AS AuftragPosMain ON AuftragMain.AuftragsNr = AuftragPosMain.AuftragsNr AND AuftragMain.AuftragsKennung = AuftragPosMain.Auftragskennung
-LEFT OUTER JOIN FK_Artikel AS ArtikelMain ON AuftragPosMain.ArtikelNr = ArtikelMain.ArtikelNr
-LEFT OUTER JOIN LX_Aufgabe AS AufgabeMain ON AuftragMain.lWiedervorlageID = AufgabeMain.ID_AUFGABE
+FROM F1.F1.FK_Auftrag AS AuftragMain
+INNER JOIN F1.FK_AuftragPos AS AuftragPosMain ON AuftragMain.AuftragsNr = AuftragPosMain.AuftragsNr AND AuftragMain.AuftragsKennung = AuftragPosMain.Auftragskennung
+LEFT OUTER JOIN F1.FK_Artikel AS ArtikelMain ON AuftragPosMain.ArtikelNr = ArtikelMain.ArtikelNr
+LEFT OUTER JOIN F1.LX_Aufgabe AS AufgabeMain ON AuftragMain.lWiedervorlageID = AufgabeMain.ID_AUFGABE
 WHERE AuftragMain.Auftragskennung = 1 AND AuftragMain.Datum_erfassung > '2018-01-01' AND AuftragPosMain.PosTyp != 2
 ORDER BY AuftragMain.Datum_erfassung, AuftragMain.AuftragsNr ASC
 ";

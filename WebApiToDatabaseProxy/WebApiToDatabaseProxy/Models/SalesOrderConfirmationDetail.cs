@@ -82,13 +82,13 @@ namespace WebApiToDatabaseProxy.Models
         public double OrderConfirmationLineQuantityOutstanding { get; set; }
 
         [DataMember(Order = 24)]
-        public double ProductQuantityInStock { get; set; }
+        public double? ProductQuantityInStock { get; set; }
 
         [DataMember(Order = 25)]
-        public double ProductQuantityOrderedByPurchasing { get; set; }
+        public double? ProductQuantityOrderedByPurchasing { get; set; }
 
         [DataMember(Order = 26)]
-        public double ProductQuantityReserved { get; set; }
+        public double? ProductQuantityReserved { get; set; }
 
         [DataMember(Order = 27)]
         public int ProductLocked { get; set; }
