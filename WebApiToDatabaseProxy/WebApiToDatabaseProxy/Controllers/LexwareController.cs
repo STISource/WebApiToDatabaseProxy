@@ -23,5 +23,11 @@ namespace WebApiToDatabaseProxy.Controllers
         {
             return this.lexwareManager.GetSalesOrderConfirmationDetails();
         }
+
+        [Route("api/lexware/InventoryValuation")]
+        public IEnumerable<ProductInStoreDetail> GetProductInStoreDetails()
+        {
+            return this.lexwareManager.GetProductInStoreDetails();
+        }
     }
 }

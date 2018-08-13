@@ -6,5 +6,7 @@ namespace WebApiToDatabaseProxy.Managers
     public interface ILexwareManager
     {
         IEnumerable<SalesOrderConfirmationDetail> GetSalesOrderConfirmationDetails();
+
+        IEnumerable<ProductInStoreDetail> GetProductInStoreDetails();
     }
 }

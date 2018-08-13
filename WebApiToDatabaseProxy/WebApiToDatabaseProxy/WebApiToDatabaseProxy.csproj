@@ -119,6 +119,7 @@
     <Compile Include="App_Start\UnityDependencyResolver.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\LexwareController.cs" />
+    <Compile Include="Models\ProductInStoreDetail.cs" />
     <Compile Include="Database\DatabaseSession.cs" />
     <Compile Include="Database\IDatabaseSession.cs" />
     <Compile Include="Global.asax.cs">
@@ -134,6 +135,7 @@
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
