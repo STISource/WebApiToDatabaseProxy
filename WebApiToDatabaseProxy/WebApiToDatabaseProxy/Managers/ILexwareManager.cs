@@ -8,5 +8,7 @@ namespace WebApiToDatabaseProxy.Managers
         IEnumerable<SalesOrderConfirmationDetail> GetSalesOrderConfirmationDetails();
 
         IEnumerable<ProductInStoreDetail> GetProductInStoreDetails();
+
+        IEnumerable<DeliveryPreviewDetail> GetDeliveryPreviewDetails();
     }
 }

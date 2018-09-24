@@ -119,6 +119,10 @@
     <Compile Include="App_Start\UnityDependencyResolver.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\LexwareController.cs" />
+    <Compile Include="Managers\LexwareManagerDeliveryPreview.cs" />
+    <Compile Include="Managers\LexwareManagerInventoryValuation.cs" />
+    <Compile Include="Managers\LexwareManagerSalesConfirmationDetails.cs" />
+    <Compile Include="Models\DeliveryPreviewDetail.cs" />
     <Compile Include="Models\ProductInStoreDetail.cs" />
     <Compile Include="Database\DatabaseSession.cs" />
     <Compile Include="Database\IDatabaseSession.cs" />

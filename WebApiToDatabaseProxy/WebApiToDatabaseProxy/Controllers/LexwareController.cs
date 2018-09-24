@@ -29,5 +29,11 @@ namespace WebApiToDatabaseProxy.Controllers
         {
             return this.lexwareManager.GetProductInStoreDetails();
         }
+
+        [Route("api/lexware/DeliveryPreview")]
+        public IEnumerable<DeliveryPreviewDetail> GetDeliveryPreviewDetails()
+        {
+            return this.lexwareManager.GetDeliveryPreviewDetails();
+        }
     }
 }
