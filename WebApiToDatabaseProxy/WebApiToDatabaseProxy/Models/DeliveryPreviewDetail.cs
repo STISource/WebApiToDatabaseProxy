@@ -16,7 +16,7 @@ namespace WebApiToDatabaseProxy.Models
         public string ProductDescription { get; set; }
 
         [DataMember(Order = 3)]
-        public double Quantity { get; set; }
+        public double QuantityOutstanding { get; set; }
 
         [DataMember(Order = 4)]
         public string Unit { get; set; }
@@ -32,23 +32,17 @@ namespace WebApiToDatabaseProxy.Models
 
         [DataMember(Order = 8)]
         public string OrderConfirmationNumber { get; set; }
-           
+          
         [DataMember(Order = 9)]
-        public string StiProjectNumber { get; set; }
+        public DateTime? DesiredDeliveryDateCustomer { get; set; }
 
         [DataMember(Order = 10)]
-        public double QuantityAlreadyDelivered { get; set; }
-
-        [DataMember(Order = 11)]
-        public double QuantityOutstanding { get; set; }
-
-        [DataMember(Order = 12)]
         public double? QuantityInStock { get; set; }
 
-        [DataMember(Order = 13)]
+        [DataMember(Order = 11)]
         public double? QuantityOrderedByPurchasing { get; set; }
         
-        [DataMember(Order = 14)]
-        public int ProductLocked { get; set; }
+        [DataMember(Order = 12)]
+        public string ProductLockedStatus { get; set; }
     }
 }
