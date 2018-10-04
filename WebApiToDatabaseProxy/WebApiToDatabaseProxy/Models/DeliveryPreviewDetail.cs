@@ -37,12 +37,15 @@ namespace WebApiToDatabaseProxy.Models
         public DateTime? DesiredDeliveryDateCustomer { get; set; }
 
         [DataMember(Order = 10)]
-        public double? QuantityInStock { get; set; }
+        public string Note { get; set; }
 
         [DataMember(Order = 11)]
+        public double? QuantityInStock { get; set; }
+
+        [DataMember(Order = 12)]
         public double? QuantityOrderedByPurchasing { get; set; }
         
-        [DataMember(Order = 12)]
+        [DataMember(Order = 13)]
         public string ProductLockedStatus { get; set; }
     }
 }

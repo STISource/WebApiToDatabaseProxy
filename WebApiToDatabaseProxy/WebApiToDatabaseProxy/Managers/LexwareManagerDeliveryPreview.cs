@@ -5,8 +5,10 @@
         private const string DeliveryPreviewSql = @"
 SELECT         
     CASE WHEN LEN(AuftragMain.KundenMatchcode) > 15 THEN LEFT(AuftragMain.KundenMatchcode, 15) + '...' ELSE AuftragMain.KundenMatchcode END AS Customer,       
-    AuftragPosMain.ArtikelNr AS ProductNumber,
-    AuftragPosMain.Artikel_Bezeichnung AS ProductDescription,
+    AuftragPosMain.ArtikelNr AS ProductNumber,    
+    CASE WHEN AuftragPosMain.PosTyp = 1 THEN
+        CASE WHEN LEN(AuftragPosMain.PosText) > 30 THEN LEFT(AuftragPosMain.PosText, 30) + ' ...' ELSE AuftragPosMain.PosText END
+    ELSE AuftragPosMain.Artikel_Bezeichnung END AS ProductDescription,
     AuftragPosMain.Artikel_Menge - ISNULL((SELECT
         SUM(AuftragPosInner1.Artikel_Menge)
      FROM F1.FK_Auftrag AS AuftragInner1
@@ -21,7 +23,12 @@ SELECT
     CONVERT(DATE, ISNULL(AufgabeMain.datEnde, AuftragMain.tsLieferTermin)) AS DeliveryDate,    
     STRING(datepart(calyearofweek, DeliveryDate), ' / ', datepart(Calweekofyear, DeliveryDate)) AS DeliveryWeek,        
     AuftragMain.AuftragsNr AS OrderConfirmationNumber,     
-    CASE WHEN ISDATE(AuftragMain.szUserdefined4)=0 THEN NULL ELSE CONVERT(DATE, AuftragMain.szUserdefined4) END AS DesiredDeliveryDateCustomer,
+    CASE WHEN ISDATE(AuftragMain.szUserdefined4)=0 THEN NULL ELSE CONVERT(DATE, AuftragMain.szUserdefined4) END AS DesiredDeliveryDateCustomer,    
+    (SELECT TOP 1 KontaktInner.szBetreff + ' - ' + KontaktInner.szBemerkung
+     FROM F1.FK_KONTAKT AS KontaktInner
+     INNER JOIN F1.FK_AuftragNotizKontakt NotizInner ON KontaktInner.lID = NotizInner.lKontaktID
+     WHERE NotizInner.lAuftragID = AuftragMain.SheetNr
+     ORDER BY NotizInner.lID) AS Note,
     (SELECT SUM(LagBest.Bestand) FROM F1.FK_LagerBestand AS LagBest WHERE LagBest.lArtikelId = ArtikelMain.SheetNr) AS QuantityInStock,        
     (SELECT SUM(LagBest2.Menge_bestellt) FROM F1.FK_LagerBestand AS LagBest2 WHERE LagBest2.lArtikelId = ArtikelMain.SheetNr) AS QuantityOrderedByPurchasing,
     CASE WHEN ArtikelMain.fGesperrt = 1 THEN 'Gesperrt!' ELSE NULL END AS ProductLockedStatus
