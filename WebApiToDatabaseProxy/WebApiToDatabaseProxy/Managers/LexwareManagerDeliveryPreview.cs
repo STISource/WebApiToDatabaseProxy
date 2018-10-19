@@ -31,7 +31,10 @@ SELECT
      ORDER BY NotizInner.lID) AS Note,
     (SELECT SUM(LagBest.Bestand) FROM F1.FK_LagerBestand AS LagBest WHERE LagBest.lArtikelId = ArtikelMain.SheetNr) AS QuantityInStock,        
     (SELECT SUM(LagBest2.Menge_bestellt) FROM F1.FK_LagerBestand AS LagBest2 WHERE LagBest2.lArtikelId = ArtikelMain.SheetNr) AS QuantityOrderedByPurchasing,
-    CASE WHEN ArtikelMain.fGesperrt = 1 THEN 'Gesperrt!' ELSE NULL END AS ProductLockedStatus
+    CASE WHEN ArtikelMain.fGesperrt = 1 THEN 'Gesperrt!' ELSE NULL END AS ProductLockedStatus,
+    AuftragPosMain.AuftragsKennung AS Pk1,
+    AuftragPosMain.AuftragsNr AS Pk2,
+    AuftragPosMain.LNr AS Pk3
 FROM F1.FK_Auftrag AS AuftragMain
 INNER JOIN F1.FK_AuftragPos AS AuftragPosMain ON AuftragMain.AuftragsNr = AuftragPosMain.AuftragsNr AND AuftragMain.AuftragsKennung = AuftragPosMain.Auftragskennung
 LEFT OUTER JOIN F1.FK_Artikel AS ArtikelMain ON AuftragPosMain.ArtikelNr = ArtikelMain.ArtikelNr

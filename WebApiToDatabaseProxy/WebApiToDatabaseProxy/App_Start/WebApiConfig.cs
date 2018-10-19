@@ -6,6 +6,8 @@ using Unity;
 using Unity.Lifetime;
 using WebApiToDatabaseProxy.Database;
 using WebApiToDatabaseProxy.Managers;
+using WebApiToDatabaseProxy.Services;
+using WebApiToDatabaseProxy.Services.Interfaces;
 
 namespace WebApiToDatabaseProxy
 {
@@ -19,7 +21,8 @@ namespace WebApiToDatabaseProxy
             container.RegisterInstance<IDatabaseSession>(new DatabaseSession(
                                                                 ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString,
                                                                 con => new OdbcConnection(con)));
-            container.RegisterType<ILexwareManager, LexwareManager>(new HierarchicalLifetimeManager());            
+            container.RegisterType<ILexwareManager, LexwareManager>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISnapshotService, NoSqlSnapshotService>();
 
             config.DependencyResolver = new UnityDependencyResolver(container);
 

@@ -18,8 +18,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -49,6 +49,9 @@
     </Reference>
     <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -123,6 +126,7 @@
     <Compile Include="Managers\LexwareManagerInventoryValuation.cs" />
     <Compile Include="Managers\LexwareManagerSalesConfirmationDetails.cs" />
     <Compile Include="Models\DeliveryPreviewDetail.cs" />
+    <Compile Include="Models\NotifyingDeliveryPreviewDetail.cs" />
     <Compile Include="Models\ProductInStoreDetail.cs" />
     <Compile Include="Database\DatabaseSession.cs" />
     <Compile Include="Database\IDatabaseSession.cs" />
@@ -133,6 +137,8 @@
     <Compile Include="Managers\LexwareManager.cs" />
     <Compile Include="Models\SalesOrderConfirmationDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Interfaces\ISnapshotService.cs" />
+    <Compile Include="Services\NoSqlSnapshotService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

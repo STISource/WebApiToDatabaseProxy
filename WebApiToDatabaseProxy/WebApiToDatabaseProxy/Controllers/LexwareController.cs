@@ -4,14 +4,14 @@ using WebApiToDatabaseProxy.Managers;
 using WebApiToDatabaseProxy.Models;
 
 namespace WebApiToDatabaseProxy.Controllers
-{
+{    
     public class LexwareController : ApiController
     {
-        private readonly ILexwareManager lexwareManager;
+        private readonly ILexwareManager lexwareManager;        
 
         public LexwareController(ILexwareManager lexwareManager)
         {
-            this.lexwareManager = lexwareManager;
+            this.lexwareManager = lexwareManager;            
         }
 
         [Route("api/lexware/SalesOrderConfirmationDetails")]
@@ -30,6 +30,12 @@ namespace WebApiToDatabaseProxy.Controllers
         public IEnumerable<DeliveryPreviewDetail> GetDeliveryPreviewDetails()
         {
             return this.lexwareManager.GetDeliveryPreviewDetails();
+        }
+
+        [Route("api/lexware/DeliveryPreviewWithNotifyStatus")]
+        public IEnumerable<NotifyingDeliveryPreviewDetail> GetDeliveryPreviewDetailsWithNotificationStatus()
+        {
+            return this.lexwareManager.GetDeliveryPreviewDetailsWithNotificationStatus();
         }
     }
 }
