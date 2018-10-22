@@ -12,8 +12,8 @@ namespace WebApiToDatabaseProxy.Services
     {
         private const string DatabaseName = @"DeliveryPreview.db";
         private const string CollectionName = @"DeliveryPreviewSnapshots";
-        private const int MaxSnapshotAge = 10; // days
-        private const int MaxSnapshotsPerUser = 30;
+        private const int MaxSnapshotAge = 45; // days
+        private const int MaxSnapshotsPerUser = 40;
 
         public void InsertSnapshot(IEnumerable<NotifyingDeliveryPreviewDetail> deliveryPreviewDetails, string userName)
         {
