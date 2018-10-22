@@ -141,7 +141,7 @@ namespace WebApiToDatabaseProxy.Managers
                     // only record the age of the latest change
                     if (detail.NotificationStatus == NotificationStatus.Unchanged)
                     {
-                        detail.NotificationAge++;
+                        detail.NotificationAge = (DateTime.Now - snapshot.SnapshotDateTime).Days;
                     }
                     currentComparisionBase = snapshotedDetail;
                 }
