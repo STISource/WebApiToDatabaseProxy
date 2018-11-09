@@ -26,8 +26,8 @@ namespace WebApiToDatabaseProxy
 
             config.DependencyResolver = new UnityDependencyResolver(container);
 
-            // Web API data formatter configuration. Throw away json. When using Excel as client it can't process it properly.
-            // config.Formatters.Remove(config.Formatters.JsonFormatter);
+            // Web API data formatter configuration. Throw away json. 
+            // When using Excel as client it can't process it properly.            
             config.Formatters.Clear();
             config.Formatters.Add(new System.Net.Http.Formatting.XmlMediaTypeFormatter());
 

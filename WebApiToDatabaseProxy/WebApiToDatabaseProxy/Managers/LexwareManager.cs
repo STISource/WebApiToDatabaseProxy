@@ -89,6 +89,9 @@ namespace WebApiToDatabaseProxy.Managers
 
             var snapshots = this.snapshotService.ReadSnapshots(currentUser);
             this.snapshotService.InsertSnapshot(results, currentUser);
+
+            // enrich each object with notification status information
+            // telling the user whether the information new, recently changed or already known
             this.SetDeliveryPreviewNotificationStatuses(results, snapshots);
 
             return results;
