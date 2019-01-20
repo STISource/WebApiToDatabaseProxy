@@ -12,5 +12,11 @@ namespace WebApiToDatabaseProxy.Managers
         IEnumerable<DeliveryPreviewDetail> GetDeliveryPreviewDetails();
 
         IEnumerable<NotifyingDeliveryPreviewDetail> GetDeliveryPreviewDetailsWithNotificationStatus();
+
+        IEnumerable<Warenausgang> GetWarenausgangsListe();
+
+        IEnumerable<Stueckliste> GetStuecklisteBestand();
+
+        IEnumerable<TestDetail> GetTestDetails();
     }
 }

@@ -37,5 +37,24 @@ namespace WebApiToDatabaseProxy.Controllers
         {
             return this.lexwareManager.GetDeliveryPreviewDetailsWithNotificationStatus();
         }
+
+        [Route("api/lexware/WarenausgangsListe")]
+        public IEnumerable<Warenausgang> GetWarenausgangsListe()
+        {
+            return this.lexwareManager.GetWarenausgangsListe();
+        }
+
+
+        [Route("api/lexware/StuecklistenMitBestand")]
+        public IEnumerable<Stueckliste> GetStuecklisteBestand()
+        {
+            return this.lexwareManager.GetStuecklisteBestand();
+        }
+
+        [Route("api/lexware/Test")]
+        public IEnumerable<TestDetail> GetTestDetail()
+        {
+            return this.lexwareManager.GetTestDetails();
+        }
     }
 }

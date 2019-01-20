@@ -184,6 +184,68 @@ namespace WebApiToDatabaseProxy.Managers
             return result;
         }
 
+
+
+        public IEnumerable<TestDetail> GetTestDetails()
+        {
+            IEnumerable<TestDetail> results = null;
+
+            using (var connection = this.dbSession.GetConnection())
+            {
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                results = connection.Query<TestDetail>(TestDetailSql);
+            }
+
+            return results;
+        }
+
+
+
+        public IEnumerable<Warenausgang> GetWarenausgangsListe()
+        {
+            IEnumerable<Warenausgang> results = null;
+
+            using (var connection = this.dbSession.GetConnection())
+            {
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                results = connection.Query<Warenausgang>(WarenausgangSql);
+            }
+
+            return results;
+        }
+
+
+
+
+
+
+        public IEnumerable<Stueckliste> GetStuecklisteBestand()
+        {
+            IEnumerable<Stueckliste> results = null;
+
+            using (var connection = this.dbSession.GetConnection())
+            {
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                results = connection.Query<Stueckliste>(StuecklisteBestandSql);
+            }
+
+            return results;
+        }
+
+
+
         [Flags]
         private enum DeliveryPreviewChangeInfo
         {

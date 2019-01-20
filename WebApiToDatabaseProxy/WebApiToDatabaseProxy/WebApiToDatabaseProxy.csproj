@@ -121,9 +121,12 @@
     <Compile Include="App_Start\UnityDependencyResolver.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\LexwareController.cs" />
+    <Compile Include="Managers\LexwareManagerStuecklisteBestand.cs" />
+    <Compile Include="Managers\LexwareManagerWarenausgang.cs" />
     <Compile Include="Managers\LexwareManagerDeliveryPreview.cs" />
     <Compile Include="Managers\LexwareManagerInventoryValuation.cs" />
     <Compile Include="Managers\LexwareManagerSalesConfirmationDetails.cs" />
+    <Compile Include="Managers\LexwareManagerTest.cs" />
     <Compile Include="Models\DeliveryPreviewDetail.cs" />
     <Compile Include="Models\NotifyingDeliveryPreviewDetail.cs" />
     <Compile Include="Models\ProductInStoreDetail.cs" />
@@ -135,6 +138,9 @@
     <Compile Include="Managers\ILexwareManager.cs" />
     <Compile Include="Managers\LexwareManager.cs" />
     <Compile Include="Models\SalesOrderConfirmationDetail.cs" />
+    <Compile Include="Models\Stueckliste.cs" />
+    <Compile Include="Models\TestDetail.cs" />
+    <Compile Include="Models\Warenausgang.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Interfaces\ISnapshotService.cs" />
     <Compile Include="Services\NoSqlSnapshotService.cs" />
