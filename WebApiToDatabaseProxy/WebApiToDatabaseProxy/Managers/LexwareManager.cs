@@ -35,8 +35,135 @@ namespace WebApiToDatabaseProxy.Managers
                 results = connection.Query<SalesOrderConfirmationDetail>(ConfirmationDetailsSql);
             }
 
+            // Hinweistexte einfügen
+            this.SalesOrderConfirmationDetails_CalculateHints(results);
+
             return results;
         }
+
+
+
+
+        // Neuer Prozedur JA 20190802
+        // Auswertungen zum Ermitteln des Hinweis-Textes werden nicht mehr im SQL Skript, sondern hier gemacht (wegen Wartbarkeit des Programms!)
+        private void SalesOrderConfirmationDetails_CalculateHints(IEnumerable<SalesOrderConfirmationDetail> confirmationDetails)
+        {
+            foreach (var rec in confirmationDetails)
+            {
+                try
+                {
+                    // Zeilenumbrüche aus der Spalte Positionstext entfernen
+                    if (rec.OrderConfirmationLineText != null)
+                    {
+                        rec.OrderConfirmationLineText = rec.OrderConfirmationLineText.Replace(System.Environment.NewLine, " ");
+                    }
+
+
+
+                    // Weitere Auswertungen nur machen, wenn nicht schon geliefert wurde und eine Artikelnummer vorhanden ist
+                    // und wenn diese AB in der Liste der nicht abgeschlossenen ABs für diesen Artikel als nächstes ansteht (sortiert nach Liefertermin, Wunschliefertermin)
+                    // und wenn der Wunsch-LT nicht ungültig ist
+
+                    if ((rec.OrderConfirmationLineDeliveryStatus != "Geliefert") & (rec.ProductNumber != null) & (rec.IstErsteABFuerDiesenArtikel == 1) & (rec.Hint != "Wunsch-LT ungültig"))
+                    {
+
+
+                        // *** Früher liefern?! ***
+                        // wenn Kundenwunsch LT vorhanden 
+                        // und zugesagter LT liegt noch in der Zukunft 
+                        // und zugesagter LT und Wunsch LT liegen mehr als eine Woche auseinander
+                        // und es sind mindestens 90 % der bestellten Menge auf Lager
+                        // und wenn diese AB in der Liste der nicht abgeschlossenen ABs für diesen Artikel als nächstes ansteht(sortiert nach Liefertermin, Wunschliefertermin)
+                        // und Artikel nicht gesperrt
+                        // und wenn der Wunsch LT innerhalb des nächsten halben Jahres liegt
+
+                        if ((rec.OrderConfirmationDesiredDeliveryDate != null)
+                            & (rec.OrderConfirmationDeliveryDate >= DateTime.Today)
+                            & ((rec.OrderConfirmationDesiredDeliveryDate - rec.OrderConfirmationDeliveryDate) < TimeSpan.FromDays(-7))
+                            & (rec.ProductQuantityInStock >= (rec.OrderConfirmationLineQuantityOutstanding * 0.9))
+                            & (rec.IstErsteABFuerDiesenArtikel == 1)
+                            & (rec.ProductLocked == 0)
+                            & ((rec.OrderConfirmationDesiredDeliveryDate - DateTime.Today) < TimeSpan.FromDays(183)))
+                        {
+                            if (rec.Hint != "") { rec.Hint += "\n"; }
+                            rec.Hint += "Früher liefern?!";
+                        }
+
+
+                        // *** Teillieferung möglich ***
+                        // wenn zwischen 40% und 90% auf Lager 
+                        // und wenn Artikel nicht gesperrt und 
+                        // wenn der Wunsch LT innerhalb des nächsten halben Jahres liegt
+
+                        if ((rec.ProductQuantityInStock < (rec.OrderConfirmationLineQuantityOutstanding))
+                            & (rec.ProductQuantityInStock >= rec.OrderConfirmationLineQuantityOutstanding * 0.4)
+                            & (rec.ProductQuantityInStock <= rec.OrderConfirmationLineQuantityOutstanding * 0.9)
+                            & (rec.ProductLocked == 0)
+                            &((rec.OrderConfirmationDesiredDeliveryDate - DateTime.Today) < TimeSpan.FromDays(183)))
+                        {
+                            if (rec.Hint != "") { rec.Hint += "\n"; }
+                            rec.Hint += "Teillieferung möglich";
+                        }
+
+
+                        // *** Vorartikel auf Lager! ***
+                        // wenn Kundenwunsch LT vorhanden 
+                        // und zugesagter LT liegt noch in der Zukunft 
+                        // und der Wunsch LT liegt nicht mehr als 4 Wochen in der Zukunft (sonst braucht der User noch keinen Hinweis)
+                        // und es ein Stücklisten-Artikel ist
+                        // und abgesehen von Dienstleistungsartikeln existiert mindestens ein Vorartikel dieser Stückliste 
+                        // und von diesem Vorartikel mindestens 50% der Bestellmenge auf Lager sind
+
+                        if ((rec.OrderConfirmationDesiredDeliveryDate != null)
+                            & (rec.OrderConfirmationDeliveryDate >= DateTime.Today)
+                            & ((rec.OrderConfirmationDesiredDeliveryDate - DateTime.Today) <= TimeSpan.FromDays(28))
+                            & (rec.StuecklistenArtikel == 1)
+                            & (rec.AnzahlVorartikelAufStueckliste >= 1)
+                            & (rec.LagBestVorartikel > (rec.OrderConfirmationLineQuantityOutstanding * 0.5)))
+                        {
+                            if (rec.Hint != "") { rec.Hint += "\n"; }
+                            rec.Hint += "Vorartikel auf Lager!";
+                        }
+
+
+                        if (rec.ProductLocked == 1)
+                        {
+
+                            // *** Gesperrte Ware auf Lager ***
+                            // wenn der Artikel gesperrt und
+                            // wenn die gesamte Menge der Kundenbestellung auf Lager ist
+                            if (rec.ProductQuantityInStock >= rec.OrderConfirmationLineQuantityOutstanding)
+                            {
+                                if (rec.Hint != "") { rec.Hint += "\n"; }
+                                rec.Hint += "Gesperrte Ware auf Lager";
+                            }
+
+                            else
+                            {
+                                // *** Gesperrte Teilmenge ***
+                                // wenn der Artikel gesperrt und
+                                // wenn mindestens 40% auf Lager ist und
+                                // wenn der Liefertermin nicht mehr als ein halbes Jahr im Voraus liegt
+                                if ((rec.ProductQuantityInStock >= (rec.OrderConfirmationLineQuantityOutstanding * 0.4))
+                                    &(rec.OrderConfirmationDeliveryDate - DateTime.Today) < TimeSpan.FromDays(183))
+                                {
+                                    if (rec.Hint != "") { rec.Hint += "\n"; }
+                                    rec.Hint += "Gesperrte Teilmenge";
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception err)
+                {
+                    if (rec.Hint != "") { rec.Hint += "\n"; }
+                    rec.Hint += err.Message;
+                }
+            }
+        }
+
+
+
 
         public IEnumerable<ProductInStoreDetail> GetProductInStoreDetails()
         {
