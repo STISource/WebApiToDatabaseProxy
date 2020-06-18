@@ -17,6 +17,8 @@ namespace WebApiToDatabaseProxy.Managers
 
         IEnumerable<Stueckliste> GetStuecklisteBestand();
 
-        IEnumerable<TestDetail> GetTestDetails();
+        IEnumerable<TestDetail> GetTestDetails(); 
+        
+        IEnumerable<ArtikelUmsatz> GetArtikelUmsatz(string von, string bis, double USD, double RMB);
     }
 }

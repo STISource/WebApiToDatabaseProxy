@@ -56,5 +56,11 @@ namespace WebApiToDatabaseProxy.Controllers
         {
             return this.lexwareManager.GetTestDetails();
         }
+
+        [Route("api/lexware/ArtikelUmsatz/{von}/{bis}/{USD}/{RMB}")]
+        public IEnumerable<ArtikelUmsatz> GetArtikelUmsatz(string von, string bis, double USD, double RMB)
+        {
+            return this.lexwareManager.GetArtikelUmsatz(von, bis, USD, RMB);
+        }
     }
 }

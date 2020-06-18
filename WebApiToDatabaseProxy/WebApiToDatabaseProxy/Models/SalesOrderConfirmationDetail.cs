@@ -15,8 +15,7 @@ namespace WebApiToDatabaseProxy.Models
         [DataMember(Order = 2)]
         public string ProductNumber { get; set; }
 
-        [DataMember(Order = 3)]
-        public string ProductDescription { get; set; }
+        // Spalte ProductDescription wird nicht mehr verwendet
 
         [DataMember(Order = 4)]
         public string OrderConfirmationLineText { get; set; }
@@ -89,5 +88,18 @@ namespace WebApiToDatabaseProxy.Models
 
         [DataMember(Order = 27)]
         public int ProductLocked { get; set; }
+
+        [DataMember(Order = 28)]
+        public int IstErsteABFuerDiesenArtikel { get; set; }
+
+
+        [DataMember(Order = 29)]
+        public int StuecklistenArtikel { get; set; }
+
+        [DataMember(Order = 30)]
+        public int AnzahlVorartikelAufStueckliste { get; set; }
+
+        [DataMember(Order = 31)]
+        public int LagBestVorartikel { get; set; }
     }
 }
