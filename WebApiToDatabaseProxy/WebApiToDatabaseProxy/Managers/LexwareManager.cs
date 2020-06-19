@@ -373,6 +373,31 @@ namespace WebApiToDatabaseProxy.Managers
 
 
 
+
+
+
+        // 20200618 JA: Neue Artikelauswertung hinzugefügt
+        public IEnumerable<ArtikelUmsatz> GetArtikelUmsatz(string von, string bis, double USD, double RMB)
+        {
+            IEnumerable<ArtikelUmsatz> results = null;
+
+            using (var connection = this.dbSession.GetConnection())
+            {
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                results = connection.Query<ArtikelUmsatz>(GetArtikelUmsatzSQL(von, bis, USD, RMB));
+            }
+
+            return results;
+        }
+
+
+
+
+
         [Flags]
         private enum DeliveryPreviewChangeInfo
         {

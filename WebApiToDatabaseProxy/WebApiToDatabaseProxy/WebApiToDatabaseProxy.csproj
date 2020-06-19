@@ -104,12 +104,14 @@
     <Compile Include="App_Start\UnityDependencyResolver.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\LexwareController.cs" />
+    <Compile Include="Managers\LexwareManagerArtikelUmsatz.cs" />
     <Compile Include="Managers\LexwareManagerStuecklisteBestand.cs" />
     <Compile Include="Managers\LexwareManagerWarenausgang.cs" />
     <Compile Include="Managers\LexwareManagerDeliveryPreview.cs" />
     <Compile Include="Managers\LexwareManagerInventoryValuation.cs" />
     <Compile Include="Managers\LexwareManagerSalesConfirmationDetails.cs" />
     <Compile Include="Managers\LexwareManagerTest.cs" />
+    <Compile Include="Models\ArtikelUmsatz.cs" />
     <Compile Include="Models\DeliveryPreviewDetail.cs" />
     <Compile Include="Models\NotifyingDeliveryPreviewDetail.cs" />
     <Compile Include="Models\ProductInStoreDetail.cs" />
