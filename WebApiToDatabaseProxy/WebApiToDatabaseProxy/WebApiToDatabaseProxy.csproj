@@ -106,6 +106,7 @@
     <Compile Include="Controllers\LexwareController.cs" />
     <Compile Include="Managers\LexwareManagerArtikelUmsatz.cs" />
     <Compile Include="Managers\LexwareManagerStuecklisteBestand.cs" />
+    <Compile Include="Managers\LexwareManagerArtikelUmsatz.cs" />
     <Compile Include="Managers\LexwareManagerWarenausgang.cs" />
     <Compile Include="Managers\LexwareManagerDeliveryPreview.cs" />
     <Compile Include="Managers\LexwareManagerInventoryValuation.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Managers\LexwareManager.cs" />
     <Compile Include="Models\SalesOrderConfirmationDetail.cs" />
     <Compile Include="Models\Stueckliste.cs" />
+    <Compile Include="Models\ArtikelUmsatz.cs" />
     <Compile Include="Models\TestDetail.cs" />
     <Compile Include="Models\Warenausgang.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
