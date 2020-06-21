@@ -12,9 +12,9 @@ namespace WebApiToDatabaseProxy.Managers
 
             return @"
 SELECT 
-Rechnung.KundenNr, Rechnung.KundenMatchcode AS Matchcode, 
+Rechnung.KundenNr, Max(Rechnung.KundenMatchcode) AS Kunde, 
 
-ROUND(SUM(RechnungsPos.Summen_netto), 2) AS VK_PosNetto_EUR, 
+ROUND(SUM(RechnungsPos.Summen_netto), 2) AS VK_Netto_EUR, 
 
 ROUND(SUM(CASE
     WHEN UPPER(TRIM(Artikel.szUserdefined3)) = 'EURO' THEN Artikel_Menge * ArtLieferant.EK_preis_eur / (IF ArtLieferant.dftEk_preisfaktor = 0 THEN 1 ELSE ArtLieferant.dftEk_preisfaktor ENDIF) 
@@ -38,8 +38,8 @@ ROUND(SUM((SELECT
     WHERE Stueckliste.ArtikelNr = RechnungsPos.ArtikelNr) * RechnungsPos.Artikel_Menge), 2)
 AS EK_UnterArt_EUR,
 
-ROUND(VK_PosNetto_EUR - ISNULL(EK_Artikel_EUR, 0) - ISNULL(EK_UnterArt_EUR, 0), 2) as MARGE_EUR,
-IF VK_PosNetto_EUR <> 0 THEN ROUND(MARGE_EUR / VK_PosNetto_EUR, 3) ELSE 0 ENDIF AS MARGE_Prozent
+ROUND(VK_Netto_EUR - ISNULL(EK_Artikel_EUR, 0) - ISNULL(EK_UnterArt_EUR, 0), 2) as MARGE_EUR,
+IF VK_Netto_EUR <> 0 THEN ROUND(MARGE_EUR / VK_Netto_EUR, 3) ELSE 0 ENDIF AS MARGE_Prozent
 
 FROM F1.FK_Auftrag AS Rechnung
 
@@ -52,8 +52,8 @@ WHERE Rechnung.AuftragsKennung = 3
 and Rechnung.Datum_erfassung >= '" + von + @"' and Rechnung.Datum_erfassung <= '" + bis + @"'
 and RechnungsPos.PosTyp = 0
 
-GROUP BY KundenNr, Matchcode
-ORDER By KundenNr
+GROUP BY KundenNr
+ORDER By VK_Netto_EUR DESC
 ";
         }
     }

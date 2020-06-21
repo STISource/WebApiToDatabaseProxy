@@ -9,7 +9,7 @@ namespace WebApiToDatabaseProxy.Models
         public string KundenNr { get; set; }
 
         [DataMember(Order = 1)]
-        public string Matchcode { get; set; }
+        public string Kunde { get; set; }
 
         [DataMember(Order = 2)]
         public double? VK_Netto_EUR { get; set; }
