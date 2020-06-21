@@ -20,5 +20,7 @@ namespace WebApiToDatabaseProxy.Managers
         IEnumerable<TestDetail> GetTestDetails();
 
         IEnumerable<ArtikelUmsatz> GetArtikelUmsatz(string von, string bis, double USD, double RMB);
+
+        IEnumerable<KundenUmsatz> GetKundenUmsatz(string von, string bis, double USD, double RMB);
     }
 }

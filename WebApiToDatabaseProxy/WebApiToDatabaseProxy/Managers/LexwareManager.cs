@@ -396,6 +396,26 @@ namespace WebApiToDatabaseProxy.Managers
 
 
 
+        // 20200621 JA: Neue Kundenauswertung hinzugefügt
+        public IEnumerable<KundenUmsatz> GetKundenUmsatz(string von, string bis, double USD, double RMB)
+        {
+            IEnumerable<KundenUmsatz> results = null;
+
+            using (var connection = this.dbSession.GetConnection())
+            {
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                results = connection.Query<KundenUmsatz>(GetKundenUmsatzSQL(von, bis, USD, RMB));
+            }
+
+            return results;
+        }
+
+
+
 
 
         [Flags]
