@@ -18,6 +18,8 @@ namespace WebApiToDatabaseProxy.Services
         public void InsertSnapshot(IEnumerable<NotifyingDeliveryPreviewDetail> deliveryPreviewDetails, string userName)
         {
             var databasePath = System.IO.Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, DatabaseName);
+            //var databasePath = System.IO.Path.Combine("C:\\TEST", DatabaseName);
+
 
             using (var database = new LiteDatabase(databasePath))
             {
@@ -39,6 +41,13 @@ namespace WebApiToDatabaseProxy.Services
             List<DeliveryPreviewSnapshot> results = null;
 
             var databasePath = System.IO.Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, DatabaseName);
+            //var databasePath = System.IO.Path.Combine("C:\\TEST", DatabaseName);
+
+            // Zum Debuggen:
+            // http://localhost:50224/api/lexware/DeliveryPreviewWithNotifyStatus
+            // http://adler02:8080/api/lexware/DeliveryPreviewWithNotifyStatus
+
+
 
             // Open database (or create if not exits)
             using (var database = new LiteDatabase(databasePath))
