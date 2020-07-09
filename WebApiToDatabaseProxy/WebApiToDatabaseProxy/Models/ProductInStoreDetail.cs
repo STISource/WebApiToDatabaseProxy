@@ -32,4 +32,6 @@ namespace WebApiToDatabaseProxy.Models
         [DataMember(Order = 8)] 
         public string NoStockMovementForMoreThanTwoYears { get; set; }
     }
+
+
 }

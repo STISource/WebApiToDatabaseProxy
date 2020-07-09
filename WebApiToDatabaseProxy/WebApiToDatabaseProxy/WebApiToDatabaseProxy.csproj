@@ -116,6 +116,7 @@
     <Compile Include="Models\DeliveryPreviewDetail.cs" />
     <Compile Include="Models\KundenUmsatz.cs" />
     <Compile Include="Models\NotifyingDeliveryPreviewDetail.cs" />
+    <Compile Include="Models\ProductInStoreDetail_v2.cs" />
     <Compile Include="Models\ProductInStoreDetail.cs" />
     <Compile Include="Database\DatabaseSession.cs" />
     <Compile Include="Database\IDatabaseSession.cs" />

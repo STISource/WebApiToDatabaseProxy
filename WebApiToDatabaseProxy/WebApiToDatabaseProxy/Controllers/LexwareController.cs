@@ -26,6 +26,12 @@ namespace WebApiToDatabaseProxy.Controllers
             return this.lexwareManager.GetProductInStoreDetails();
         }
 
+        [Route("api/lexware/InventoryValuation_v2")]
+        public IEnumerable<ProductInStoreDetail_v2> GetProductInStoreDetails_v2()
+        {
+            return this.lexwareManager.GetProductInStoreDetails_v2();
+        }
+
         [Route("api/lexware/DeliveryPreview")]
         public IEnumerable<DeliveryPreviewDetail> GetDeliveryPreviewDetails()
         {

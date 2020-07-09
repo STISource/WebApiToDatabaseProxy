@@ -181,6 +181,23 @@ namespace WebApiToDatabaseProxy.Managers
 
             return results;
         }
+        public IEnumerable<ProductInStoreDetail_v2> GetProductInStoreDetails_v2()
+        {
+            IEnumerable<ProductInStoreDetail_v2> results = null;
+
+            using (var connection = this.dbSession.GetConnection())
+            {
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                results = connection.Query<ProductInStoreDetail_v2>(InventoryValuationSql_v2);
+            }
+
+            return results;
+        }
+
 
         public IEnumerable<DeliveryPreviewDetail> GetDeliveryPreviewDetails()
         {
